@@ -61,64 +61,61 @@ def make_email(company_name, person_name, address, type, tt, member_charge):
     msg['To'] = address
     bdy = ""
 
-    match type:
-        case "Tech(Software)":
-            one = '\n'.join(email_body["Tech(Software)"]).replace("[first name]", person_name)
-            one = one.replace("[company name]", company_name)
+    if type == "Tech(Software)":
+        one = '\n'.join(email_body["Tech(Software)"]).replace("[first name]", person_name)
+        one = one.replace("[company name]", company_name)
             
-        case "Tech(Hardware)":
-            one = '\n'.join(email_body["Tech(Hardware)"]).replace("[first name]", person_name)
-            one = one.replace("[company name]", company_name)
+    elif type == "Tech(Hardware)":
+        one = '\n'.join(email_body["Tech(Hardware)"]).replace("[first name]", person_name)
+        one = one.replace("[company name]", company_name)
          
-        case "Finance":
-            one = '\n'.join(email_body["Finance"]).replace("[first name]", person_name)
-            one = one.replace("[company name]", company_name)
-  
-        case "Food":
-            one = '\n'.join(email_body["Food"]).replace("[first name]", person_name)
-            one = one.replace("[company name]", company_name)
- 
-        case other:
-            one = '\n'.join(email_body["Other"]).replace("[first name]", person_name)
-            one = one.replace("[company name]", company_name)
+    elif type == "Finance":
+        one = '\n'.join(email_body["Finance"]).replace("[first name]", person_name)
+        one = one.replace("[company name]", company_name)
+    
+    elif type == "Food":
+        one = '\n'.join(email_body["Food"]).replace("[first name]", person_name)
+        one = one.replace("[company name]", company_name)
+    
+    else:
+        one = '\n'.join(email_body["Other"]).replace("[first name]", person_name)
+        one = one.replace("[company name]", company_name)
 
 
-    match member_charge.strip():
-        # case "Andrew Hu":
-        #     msg["cc"] = ANDREW
-        #     msg['From'] = "Andrew Hu <" + EMAIL_ADDRESS + ">"
-        #     one = one.replace("[your name]", "Andrew Hu")
-
-        # case "Annie Liang":
-        #     msg["cc"] = ANNIE
-        #     msg['From'] = "Annie Liang <" + EMAIL_ADDRESS + ">"
-        #     one = one.replace("[your name]", "Annie Liang")
-
-        # case "Hoang Nguyen":
-        #     msg["cc"] = HOANG
-        #     msg['From'] = "Hoang Nguyen <" + EMAIL_ADDRESS + ">"
-        #     one = one.replace("[your name]", "Hoang Nguyen")
-
-        # case "Jasmine Fanchu Zhou":
-        #     msg["cc"] = JASMINE
-        #     msg['From'] = "Jasmine Fanchu Zhou <" + EMAIL_ADDRESS + ">"
-        #     one = one.replace("[your name]", "Jasmine Fanchu Zhou")
-
-
-        # case "Shraddha Lulla":
-        #     msg["cc"] = SHRADDHA
-        #     msg['From'] = "Shraddha Lulla <" + EMAIL_ADDRESS + ">"
-        #     one = one.replace("[your name]", "Shraddha Lulla")
-
-        # case "Sophie Lim":
-        #     msg["cc"] = SOPHIE
-        #     msg['From'] = "Sophie Lim <" + EMAIL_ADDRESS + ">"
-        #     one = one.replace("[your name]", "Sophie Lim")
-
-        case other:
-            #msg["cc"] = LUCAS
-            #msg['From'] = "Lucas Yoon <" + EMAIL_ADDRESS + ">"
-            one = one.replace("[your name]", "Junsun (Lucas) Yoon [Head of Sponsorship]")
+    if member_charge.strip() == "Andrew Hu":
+        msg["cc"] = ANDREW
+        msg['From'] = "Andrew Hu <" + EMAIL_ADDRESS + ">"
+        one = one.replace("[your name]", "Andrew Hu")
+    
+    elif member_charge.strip() == "Annie Liang":
+        msg["cc"] = ANNIE
+        msg['From'] = "Annie Liang <" + EMAIL_ADDRESS + ">"
+        one = one.replace("[your name]", "Annie Liang")
+    
+    elif member_charge.strip() == "Hoang Nguyen":
+        msg["cc"] = HOANG
+        msg['From'] = "Hoang Nguyen <" + EMAIL_ADDRESS + ">"
+        one = one.replace("[your name]", "Hoang Nguyen")
+    
+    elif member_charge.strip() == "Jasmine Fanchu Zhou":
+        msg["cc"] = JASMINE
+        msg['From'] = "Jasmine Fanchu Zhou <" + EMAIL_ADDRESS + ">"
+        one = one.replace("[your name]", "Jasmine Fanchu Zhou")
+    
+    elif member_charge.strip() == "Shraddha Lulla":
+        msg["cc"] = SHRADDHA
+        msg['From'] = "Shraddha Lulla <" + EMAIL_ADDRESS + ">"
+        one = one.replace("[your name]", "Shraddha Lulla")
+    
+    elif member_charge.strip() == "Sophie Lim":
+        msg["cc"] = SOPHIE
+        msg['From'] = "Sophie Lim <" + EMAIL_ADDRESS + ">"
+        one = one.replace("[your name]", "Sophie Lim")
+    
+    else:
+        #msg["cc"] = LUCAS
+        #msg['From'] = "Lucas Yoon <" + EMAIL_ADDRESS + ">"
+        one = one.replace("[your name]", "Junsun (Lucas) Yoon [Head of Sponsorship]")
    
 
 

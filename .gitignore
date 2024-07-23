@@ -1,0 +1,10 @@
+# Ignore configuration file containing sensitive information
+config.ini
+
+# Ignore Python byte-compiled files
+__pycache__/
+*.pyc
+
+# Ignore directories for virtual environments
+venv/
+.env/

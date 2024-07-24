@@ -2,6 +2,8 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import configparser
+import docx
+import os
 
 # Your email credentials
 config = configparser.ConfigParser()
@@ -15,13 +17,35 @@ app_password = config['EMAIL_CREDENTIALS']['EMAIL_PASSWORD']
 smtp_server = "smtp.gmail.com"
 port = 465
 
+# Member email
+member_email = config['MEMBER_EMAIL']['EMAIL'].split(', ')
 
-def make_email():
+def make_email(company_name, sender_name, member_in_charge=None):
+    doc_path = 'templates/software.docx'
+    body = ''
+    if os.path.exists(doc_path):
+        doc = docx.Document(doc_path)
+        for para in doc.paragraphs:
+            if "[Subject]" in para.text:
+                body += '\n' + para.text.replace('[Subject]', 'Sponsorship Inquiry')
+            elif "[company name/person name]" in para.text:
+                body += '\n' + para.text.replace("[company name/person name]", company_name)
+            elif "[your name]" in para.text:
+                body += '\n' + para.text.replace("[your name]", sender_name)
+            else:
+                body += '\n' + para.text
+
+    else:   
+        print('Not a valid template path!')
+        return None
+    
+    
     msg = MIMEMultipart()
     msg['From'] = email_address
     msg['To'] = "" # recipient email
-    msg['Subject'] = "Hey there"
-    body = "The thing actually work"
+    # msg['CC'] = member_in_charge 
+    msg['BCC'] = ','.join(member_email)
+    msg['Subject'] = "Sponsorship Inquiry (Automatic Email Testing)"
     msg.attach(MIMEText(body, 'plain'))
 
     return msg
@@ -40,7 +64,8 @@ def send_email(msg):
 
 
 def main():
-    ...
+    email = make_email('Intel', 'Hoang')
+    send_email(email)
 
 if __name__ == "__main__":
     main()

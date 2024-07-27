@@ -30,7 +30,7 @@ if not {'Email', 'za'}.issubset(df.columns):
     raise ValueError("CSV file must contain 'Email' and 'za' columns")
 
 
-def make_email(company_name, sender_name, member_in_charge=None):
+def make_email(company_name, sender_name, recipient_email, member_in_charge=None):
     doc_path = 'templates/software.docx'
     body = ''
     if os.path.exists(doc_path):
@@ -52,7 +52,7 @@ def make_email(company_name, sender_name, member_in_charge=None):
     
     msg = MIMEMultipart()
     msg['From'] = email_address
-    msg['To'] = "" # recipient email
+    msg['To'] = recipient_email 
     # msg['CC'] = member_in_charge 
     msg['BCC'] = ','.join(member_email)
     msg['Subject'] = "Sponsorship Inquiry (Automatic Email Testing)"
@@ -74,9 +74,9 @@ def send_email(msg):
 
 
 def main():
-    for index, row in df.iterrows():
-        recipient_email = row['Email']
-        company_name = row['za']
+        for row in df.itertuples(index=False):
+            recipient_email = row.Email
+            company_name = row.za
         
         email = make_email(company_name, recipient_email)
         if email:

@@ -4,6 +4,7 @@ from email.mime.multipart import MIMEMultipart
 import configparser
 import docx
 import os
+import pandas as pd
 
 # Your email credentials
 config = configparser.ConfigParser()
@@ -19,6 +20,15 @@ port = 465
 
 # Member email
 member_email = config['MEMBER_EMAIL']['EMAIL'].split(', ')
+
+# Load email list from CSV
+csv_file = 'sponsorships2024.csv'  # Path to CSV file
+df = pd.read_csv(csv_file)
+
+#Verify columns exist in CSV
+if not {'Email', 'za'}.issubset(df.columns):
+    raise ValueError("CSV file must contain 'Email' and 'za' columns")
+
 
 def make_email(company_name, sender_name, member_in_charge=None):
     doc_path = 'templates/software.docx'
@@ -64,11 +74,15 @@ def send_email(msg):
 
 
 def main():
-    email = make_email('Intel', 'Hoang')
-    send_email(email)
+    for index, row in df.iterrows():
+        recipient_email = row['Email']
+        company_name = row['za']
+        
+        email = make_email(company_name, recipient_email)
+        if email:
+            send_email(email)
 
 if __name__ == "__main__":
     main()
-
 
 
